@@ -1,1 +1,3 @@
 add_subdirectory(code_00_raytracer)
+add_subdirectory(code_01_setup_glfw)
+add_subdirectory(code_02_my_first_triangle)
