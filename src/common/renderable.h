@@ -45,7 +45,7 @@ struct renderable {
 		/* specify the data format */
 		glVertexAttribPointer(attribute_index, num_components, TYPE, false, stride, (void*)(size_t)offset);
 
-		glBindVertexArray(NULL);
+		glBindVertexArray(0);
 		return vbos.back();
 	}
 
@@ -73,7 +73,7 @@ struct renderable {
 		/* specify the data format */
 		glVertexAttribPointer(attribute_index, num_components, TYPE, false, stride, (void*)(size_t)offset);
 
-		glBindVertexArray(NULL);
+		glBindVertexArray(0);
 		return vbos.back();
 	}
 
@@ -82,7 +82,7 @@ struct renderable {
 		unsigned int attribute_index,
 		unsigned int num_components,
 		unsigned int stride = 0,
-		unsigned int offset = 0) { }
+		unsigned int offset = 0) { return 0;}
 
 
 	template <class C>
@@ -95,7 +95,7 @@ struct renderable {
 		glGenBuffers(1, &elements.back().ind);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elements.back().ind);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(IND_TYPE) * count, indices, GL_STATIC_DRAW);
-		glBindVertexArray(NULL);
+		glBindVertexArray(0);
 		elements.back().mode = mode;
 		elements.back().count = count;
 		elements.back().itype = type_to_GL<IND_TYPE>();

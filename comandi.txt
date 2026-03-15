@@ -1,0 +1,33 @@
+quando vado a creare un nuovo main_xx.cpp lo vado a mettere dentro 
+una cartella cod_xx_nuovo dentro la cartella src
+
+dentro cod_xx_nuovo metto anche un file CMakeLists.txt con la sequente struttura:
+    add_executable(code_xx_new main_xx.cpp)
+
+    find_package(OpenGL)
+
+    target_include_directories(code_xx_new PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}        # anchors relative includes here
+    )
+
+    target_link_libraries(code_xx_new
+        PRIVATE
+            glfw
+            glad
+            OpenGL::GL
+    )
+
+poi vado a modificare il CMakeLists.txt della cartella src, aggiungendo 
+    add_subdirectory(code_xx_new)
+
+ora siamo pronti per aggiornare build e compilare ed eseguire da dentro linux/CGCourse2026: 
+cd build 
+cmake ..
+(se aggiorno main_xx.cpp, parto da qua )
+make 
+./src/code_xx_new/code_xx_new 
+(se dice non trovato esegui find . -type f -name "code_xx_new"
+che da il percorso e vai ad eseguire quello)
+
+per quanto riguarda i file che mi creano un immagine .ppm dopo averlo eseguito
+vado su cartella -> ubuntu -> home -> pippo -> linux -> CGCourse2026 -> build -> file.ppm (ha la faccina di GIMP)

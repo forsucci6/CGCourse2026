@@ -4,4 +4,6 @@ add_subdirectory(code_02_my_first_triangle)
 add_subdirectory(code_03_wrapping_shaders_buffers)
 add_subdirectory(code_04_robotic_arm_transformations)
 
+add_subdirectory(code_041_robotic_arm_2D)
+add_subdirectory(code_021_my_first_triangle_mod)
 

@@ -55,7 +55,7 @@ int main(int argc, char** argv) {
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(1024, 1024, "code_04_robotic_arm_transformations", NULL, NULL);
+    window = glfwCreateWindow(1024, 1024, "code_041_robotic_arm_2D", NULL, NULL);
 
 
     if (!window)
@@ -85,14 +85,15 @@ int main(int argc, char** argv) {
 
     renderable quad, frame;
     frame = shape_maker::frame();
-    quad = shape_maker::cube();
+    quad = shape_maker::quad();
     
 
     shader s;
     s.bind_attribute("aPosition", 0);
     s.create_program(
-    "../src/code_04_robotic_arm_transformations/shaders/basic.vert", 
-    "../src/code_04_robotic_arm_transformations/shaders/basic.frag");
+    "../src/code_041_robotic_arm_2D/shaders/basic.vert",
+    "../src/code_041_robotic_arm_2D/shaders/basic.frag"
+    );
     glUseProgram(s.program);
 
     /* cal glGetError and print out the result in a more verbose style
@@ -101,58 +102,47 @@ int main(int argc, char** argv) {
     */
     check_gl_errors(__LINE__, __FILE__);
 
-	glm::mat4 view = glm::lookAt(glm::vec3(100, 200, 200), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
-	glm::mat4 proj = glm::perspective(glm::radians(45.0f), 1.0f, 1.f, 500.0f);
+    glm::mat4 glob = glm::scale(glm::vec3(0.01, 0.01, 1));
 
-
-
-    glm::mat4 s_s = glm::scale(glm::vec3(10, 10, 10));
-    glm::mat4 s_a = glm::scale(glm::vec3(15, 5, 5));
+    glm::mat4 s_s = glm::scale(glm::vec3(10, 10, 1));
+    glm::mat4 s_a = glm::scale(glm::vec3(15, 5, 1));
     glm::mat4 t_a = glm::translate(glm::vec3(25, 0, 0));
 
-    glm::mat4 s_e = glm::scale(glm::vec3(8, 8, 8));
-    glm::mat4 s_f = glm::scale(glm::vec3(12, 4, 4));
+    glm::mat4 s_e = glm::scale(glm::vec3(8, 8, 1));
+    glm::mat4 s_f = glm::scale(glm::vec3(12, 4, 1));
     glm::mat4 t_f = glm::translate(glm::vec3(20, 0, 0));
 
-    glm::mat4 s_w = glm::scale(glm::vec3(6, 6, 6));
+    glm::mat4 s_w = glm::scale(glm::vec3(6, 6, 1));
     glm::mat4 s_f1 = glm::scale(glm::vec3(5, 2, 1));
-    glm::mat4 t_f1 = glm::translate(glm::vec3(11, 4, 4));
+    glm::mat4 t_f1 = glm::translate(glm::vec3(11, 4, 0));
     glm::mat4 s_f2 = glm::scale(glm::vec3(5, 2, 1));
-    glm::mat4 t_f2 = glm::translate(glm::vec3(11, -4, 4));
-    glm::mat4 s_f3 = glm::scale(glm::vec3(5, 2, 1));
-    glm::mat4 t_f3 = glm::translate(glm::vec3(11, 4, -4));
-    glm::mat4 s_f4 = glm::scale(glm::vec3(5, 2, 1));
-    glm::mat4 t_f4 = glm::translate(glm::vec3(11, -4, -4));
+    glm::mat4 t_f2 = glm::translate(glm::vec3(11, -4, 0));
 
+    glm::mat4 W = glm::translate(glm::vec3(30, 0, 0)); //polso
 
-    glm::mat4 W = glm::translate(glm::vec3(30, 0, 0));
-
-    glm::mat4 E = glm::translate(glm::vec3(40, 0, 0));
-    
-    alpha_S = 0.0;
-    alpha_E = 0.0;
-    alpha_W = 0.0;
+    glm::mat4 E = glm::translate(glm::vec3(40, 0, 0)); //gomito
+ 
+    alpha_S=0.0;
+    alpha_E=0.0;
+    alpha_W= 0.0;
 
     matrix_stack stack;
 
-    stack.mult(proj*view );
+    stack.mult(glob);
 
-    float alpha = 0.0;
-    glEnable(GL_DEPTH_TEST);
+    glDisable(GL_DEPTH_TEST);
     while (!glfwWindowShouldClose(window))
     {
         glm::mat4 r_S = glm::rotate(alpha_S, glm::vec3(0, 0, 1));
         glm::mat4 r_E = glm::rotate(alpha_E, glm::vec3(0, 0, 1));
         glm::mat4 r_W = glm::rotate(alpha_W, glm::vec3(0, 0, 1));
 
-		glm::mat4 r = glm::rotate(alpha+=0.01, glm::vec3(0, 1, 0));
-
         /* Render here */
         glClearColor(0.2, 0.2, 0.2, 1);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   
         stack.push();
-        stack.mult(r);
+
         stack.mult(glm::translate(glm::vec3(0, -30, 0)));
 
         stack.mult(r_S);
@@ -178,27 +168,22 @@ int main(int argc, char** argv) {
         quad.bind();
         glDrawElements(quad().mode, quad().count, quad().itype, NULL);
 
-
         // Elbow frame
         stack.mult(E * r_E);
         stack.push();
 
         // Elbow
         stack.mult(s_e);
-
         glUniformMatrix4fv(s["uM"], 1, GL_FALSE, glm::value_ptr(stack.m()));
         stack.pop();
-
         glUniform3f(s["uCol"], 0.4, 0.3, 0.5);
         quad.bind();
         glDrawElements(quad().mode, quad().count, quad().itype, NULL);
 
-        
         stack.push();
 
         // forearm
         stack.mult(t_f * s_f);
-
         glUniformMatrix4fv(s["uM"], 1, GL_FALSE, glm::value_ptr(stack.m()));
         stack.pop();
         glUniform3f(s["uCol"], 0.4, 0.2, 0.5);
@@ -209,11 +194,10 @@ int main(int argc, char** argv) {
         stack.mult(W * r_W );
         stack.push();
 
-        // wrist
+        //wrist
         stack.mult(s_w);
         glUniformMatrix4fv(s["uM"], 1, GL_FALSE, glm::value_ptr(stack.m()));
         stack.pop();
-
         glUniform3f(s["uCol"], 0.4, 0.5, 0.0);
         quad.bind();
         glDrawElements(quad().mode, quad().count, quad().itype, NULL);
@@ -234,31 +218,12 @@ int main(int argc, char** argv) {
         stack.mult( t_f2 * s_f2);
         glUniformMatrix4fv(s["uM"], 1, GL_FALSE, glm::value_ptr(stack.m()));
         stack.pop();
-        glUniform3f(s["uCol"], 0.4, 0.6, 0.5);
-        quad.bind();
-        glDrawElements(quad().mode, quad().count, quad().itype, NULL);
-
-        stack.push();
-    
-        //finger3
-        stack.mult( t_f3 * s_f3);
-        glUniformMatrix4fv(s["uM"], 1, GL_FALSE, glm::value_ptr(stack.m()));
-        stack.pop();
-        glUniform3f(s["uCol"], 0.4, 0.8, 0.0);
-        quad.bind();
-        glDrawElements(quad().mode, quad().count, quad().itype, NULL);
-
-         stack.push();
-    
-        //finger4
-        stack.mult( t_f4 * s_f4);
-        glUniformMatrix4fv(s["uM"], 1, GL_FALSE, glm::value_ptr(stack.m()));
-        stack.pop();
-        glUniform3f(s["uCol"], 0.4, 0.9, 0.9);
+        glUniform3f(s["uCol"], 0.4, 0.6, 0.0);
         quad.bind();
         glDrawElements(quad().mode, quad().count, quad().itype, NULL);
 
         stack.pop();
+        
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
