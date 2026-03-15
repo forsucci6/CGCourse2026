@@ -22,7 +22,7 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
-build/
+build/*
 external/glfw/docs/
 
 # .NET Core
@@ -42,6 +42,7 @@ ScaffoldingReadMe.txt
 ~$*
 *~
 CodeCoverage/
+**/CMakeFIles
 
 # MSBuild Binary and Structured Log
 *.binlog
