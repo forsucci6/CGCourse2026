@@ -48,7 +48,8 @@ int main(void)
 	printout_opengl_glsl_info();
 
 	shader basic_shader;
-	basic_shader.create_program("shaders/basic.vert", "shaders/basic.frag");
+	basic_shader.create_program("../src/code_06_arm_rotations/shaders/basic.vert",
+								"../src/code_06_arm_rotations/shaders/basic.frag");
 
 
 	/* create a  cube   centered at the origin with side 2*/

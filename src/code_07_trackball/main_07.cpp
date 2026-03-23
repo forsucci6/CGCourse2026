@@ -68,7 +68,7 @@ bool ray_sphere_intersection(glm::vec3& int_point, glm::vec3 o, glm::vec3 d, glm
 *   la versione corrente di viewport_to_ray crea il raggio passante per il pixel pX,pY
 *   e per farlo utilizza i dati di left (-1), right (1), bottom (-0.8),  top (0.8) e near
 *   specificati dalla funzione glm::frustum
-*   Ne segue che se cambiamo la proiezione questa funzione non calcola piú il raggio giusto.
+*   Ne segue che se cambiamo la proiezione questa funzione non calcola piï¿½ il raggio giusto.
 *   Provate a fare la versione che prende la matrice di proiezione e la viewport come parametri:
 *  	void viewport_to_ray(glm::mat4 proj, glm::vec4 viewport, double pX, double pY, glm::vec4  &orig, glm::vec4 &  dir) {
 */
@@ -223,7 +223,8 @@ int main(void)
 
 	/* load the shaders */
 	shader basic_shader;
-	basic_shader.create_program("shaders/basic.vert", "shaders/basic.frag");
+	basic_shader.create_program("../src/code_07_trackball/shaders/basic.vert",
+								"../src/code_07_trackball/shaders/basic.frag");
 
 	/* Set the uT matrix to Identity */
 	glUseProgram(basic_shader.program);

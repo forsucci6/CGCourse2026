@@ -222,9 +222,11 @@ int main(void)
 
 	/* load the shaders */
 	shader basic_shader;
-	basic_shader.create_program("shaders/basic.vert", "shaders/basic.frag");
+	basic_shader.create_program("../src/code_08_raster/shaders/basic.vert",
+								"../src/code_08_raster/shaders/basic.frag");
 	shader flat_shader;
-	flat_shader.create_program("shaders/flat.vert", "shaders/flat.frag");
+	flat_shader.create_program("../src/code_08_raster/shaders/flat.vert",
+							   "../src/code_08_raster/shaders/flat.frag");
 
 	/* Set the uT matrix to Identity */
 	glUseProgram(basic_shader.program);

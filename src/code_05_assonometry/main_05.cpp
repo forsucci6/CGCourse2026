@@ -141,7 +141,8 @@ int main(int argc, char** argv) {
 
     shader s;
     s.bind_attribute("aPosition", 0);
-    s.create_program("shaders/basic.vert", "shaders/basic.frag");
+    s.create_program("../src/code_05_assonometry/shaders/basic.vert",
+                    "../src/code_05_assonometry/shaders/basic.frag");
     glUseProgram(s.program);
 
     /* cal glGetError and print out the result in a more verbose style

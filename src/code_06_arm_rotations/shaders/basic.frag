@@ -1,4 +1,4 @@
-#version 460 core  
+#version 450 core  
 out vec4 color; 
 in vec3 vColor;
 in vec3 vPos;
