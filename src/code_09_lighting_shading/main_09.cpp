@@ -65,7 +65,7 @@ void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 			 Does not do anything other the printing out the value found
 			 */
 
-			 // from viewport to world space
+			// from viewport to world space
 			float depthvalue;
 			glReadPixels((int)xpos, height - (int)ypos, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depthvalue);
 			glm::vec4 ndc = glm::vec4(-1.f + xpos / float(width) * 2, -1.f + (height - ypos) / float(height) * 2.f, -1.f + depthvalue * 2.f, 1.f);
@@ -244,8 +244,8 @@ int main(int argc, char** argv)
 
 	/* load the shaders */
 	shader basic_shader;
-	basic_shader.create_program("shaders/basic.vert", "shaders/basic.frag");
-
+	basic_shader.create_program("../src/code_09_lighting_shading/shaders/basic.vert", 
+								"../src/code_09_lighting_shading/shaders/basic.frag");
 
 	/* create a  sphere   centered at the origin with radius 1*/
 	r_sphere = shape_maker::sphere(2);
