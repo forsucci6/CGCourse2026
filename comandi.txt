@@ -31,3 +31,25 @@ che da il percorso e vai ad eseguire quello)
 
 per quanto riguarda i file che mi creano un immagine .ppm dopo averlo eseguito
 vado su cartella -> ubuntu -> home -> pippo -> linux -> CGCourse2026 -> build -> file.ppm (ha la faccina di GIMP)
+
+
+per aggiornare: 
+1. Committa le tue modifiche:
+    git add .
+    git commit -m "mie modifiche"
+2. Scarica gli aggiornamenti del prof:
+    git fetch upstream
+3. Integra nel tuo branch:
+    git merge upstream/main
+4. Pusha tutto sul tuo repo:
+    git push origin main
+
+Dopo il `merge` potrebbero esserci **conflitti** su qualcuno dei file che hai modificato (tipo `main_05.cpp`, `main_06.cpp`, ecc.). 
+Se succede Git te lo segnala così:
+```
+CONFLICT (content): Merge conflict in src/code_06_arm_rotations/main_06.cpp
+In quel caso aprilo in VSC — apparirà un'interfaccia grafica con "Accept Current Change" (tieni il tuo) / 
+"Accept Incoming Change" (prendi quello del prof) / "Accept Both". Scegli per ogni file e poi:
+git add .
+git commit
+
